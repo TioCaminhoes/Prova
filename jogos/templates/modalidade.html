@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="conteudo">
+        <nav class="trilha"><a href="{% url 'index' %}">Equipes</a> / {{ modalidade.nome }}</nav>
+            <header class="topo">
+                <span class="sobretitulo">Modalidade</span>
+                <h1>{{ modalidade.nome }}</h1>
+            </header>
+
+            <dl class="numeros">
+                <div>
+                    <dt>Tipo</dt>
+                    <dd>{{ modalidade.tipo }}</dd>
+                </div>
+                <div>
+                    <dt>Máximo por equipe</dt>
+                    <dd>{{ modalidade.max_atletas }}</dd>
+                </div>
+                <div>
+                    <dt>Atletas inscritos</dt>
+                    <dd>{{ modalidade.atletas.count }}</dd>
+                </div>
+            </dl>
+
+        {% for atleta in atletas %}
+        <h2>Atletas inscritos</h2>
+        <div class="tabela">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Equipe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ atleta.nome }}</td>
+                        <td><a href="{% url 'equipe' atleta.equipe.pk %}">{{ atleta.equipe.nome }}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% empty %}
+        <p class="aviso">Nenhum atleta inscrito nesta modalidade.</p>
+        {% endfor %}
+    </main>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="conteudo">
+        <header class="topo">
+            <span class="sobretitulo">Jogos Interclasses 2026</span>
+            <h1>Equipes inscritas</h1>
+            <p class="descricao">Conheça as equipes que disputam os Jogos Interclasses do campus.</p>
+        </header>
+
+        <div class="busca">
+            <label for="busca">Buscar equipe</label>
+            <input type="search" id="busca" placeholder="Digite o nome da equipe">
+            <button id ="busca-btn" onclick="buscarEquipe()">Buscar</button>
+        </div>
+        {% for equipe in equipes %}
+        <section class="grade" id="lista-equipes">
+            <article class="card" style="border-top-color: #d97706;">
+                <h3>{{ equipe.nome }}</h3>
+                <dl>
+                    <dt>Curso</dt>
+                    <dd>{{ equipe.curso }}</dd>
+                    {% for tecnico in equipe.tecnicos.all %}
+                    <dt>Técnico</dt>
+                    <dd>{{ tecnico.nome }}</dd>
+                    {% empty %}
+                    <dt>Técnico</dt>
+                    <dd>não definido</dd>
+                    {% endfor %}
+                    <dt>Atletas</dt>
+                    <dd>{{ equipe.atletas.count }}</dd>
+                </dl>
+                <a class="link" href="{% url 'equipe' equipe.pk %}">Ver equipe</a>
+            </article>
+        </section>
+        <p id="sem-resultado" style="display: none;">Nenhuma equipe encontrada.</p>
+        {% empty %}
+        <p class="aviso">Nenhuma equipe encontrada.</p>
+        {% endfor %}
+
+        
+        <h2>Modalidades</h2>
+        {% for modalidade in modalidades %}
+        <ul class="lista-modalidades">
+            <li><a href="{% url 'modalidade' modalidade.pk %}">{{ modalidade.nome }}</a></li>
+        {% empty %}
+            <li><a href="{% url 'modalidade' 0 %}">Nenhuma modalidade</a></li>
+        {% endfor %}
+        </ul>
+    </main>
+{% endblock %}
